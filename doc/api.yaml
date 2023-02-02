@@ -193,8 +193,8 @@ paths:
     get:
       tags:
         - Users
-      summary: Get all users
-      description: Gets all users
+      summary: Get all user
+      description: Gets all user
       responses:
         200:
           description: Successful operation
