@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TracksService } from './tracks.service';
 import { TracksController } from './tracks.controller';
-import { MapTrackRepository } from '../entity-repository/entity/MapTrackRepository';
-import { MapUserRepository } from '../entity-repository/entity/MapUserRepository';
+import { MapTracksRepository } from '../entity-repository/entity/MapTracksRepository';
+import { MapUsersRepository } from '../entity-repository/entity/MapUsersRepository';
 
 @Module({
   controllers: [TracksController],
-  providers: [TracksService, MapTrackRepository, MapUserRepository],
+  providers: [TracksService, MapTracksRepository, MapUsersRepository],
 })
 export class TracksModule {}

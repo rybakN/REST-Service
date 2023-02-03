@@ -1,4 +1,4 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
 import { TrackEntity } from './entities/track.entity';
@@ -6,18 +6,18 @@ import { EntityRepository } from '../entity-repository/interface/EntityRepositor
 import { UserEntity } from '../user/entities/user.entity';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { UpdateUserDto } from '../user/dto/update-user.dto';
-import { MapTrackRepository } from '../entity-repository/entity/MapTrackRepository';
-import { MapUserRepository } from '../entity-repository/entity/MapUserRepository';
+import { MapTracksRepository } from '../entity-repository/entity/MapTracksRepository';
+import { MapUsersRepository } from '../entity-repository/entity/MapUsersRepository';
 @Injectable()
 export class TracksService {
   constructor(
-    @Inject(MapTrackRepository)
+    @Inject(MapTracksRepository)
     private tracks: EntityRepository<
       TrackEntity,
       CreateTrackDto,
       UpdateTrackDto
     >,
-    @Inject(MapUserRepository)
+    @Inject(MapUsersRepository)
     private usersRepository: EntityRepository<
       UserEntity,
       CreateUserDto,

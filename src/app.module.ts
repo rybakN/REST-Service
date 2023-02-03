@@ -4,9 +4,10 @@ import { AppService } from './app.service';
 import { UserModule } from './routes/user/user.module';
 import { TracksModule } from './routes/tracks/tracks.module';
 import { EntityRepositoryModule } from './routes/entity-repository/entity-repository.module';
+import { ArtistsModule } from './routes/artists/artists.module';
 
 @Module({
-  imports: [UserModule, TracksModule, EntityRepositoryModule],
+  imports: [UserModule, TracksModule, EntityRepositoryModule, ArtistsModule],
   controllers: [AppController],
   providers: [AppService],
   exports: [EntityRepositoryModule],

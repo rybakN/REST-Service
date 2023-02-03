@@ -6,7 +6,7 @@ import { CreateTrackDto } from '../../tracks/dto/create-track.dto';
 import { UpdateTrackDto } from '../../tracks/dto/update-track.dto';
 
 @Injectable()
-export class MapTrackRepository
+export class MapTracksRepository
   implements EntityRepository<TrackEntity, CreateTrackDto, UpdateTrackDto>
 {
   tracks: Map<string, TrackEntity> = new Map();

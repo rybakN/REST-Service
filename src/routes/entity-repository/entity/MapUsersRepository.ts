@@ -6,7 +6,7 @@ import { Injectable } from '@nestjs/common';
 import { EntityRepository } from '../interface/EntityRepository';
 
 @Injectable()
-export class MapUserRepository
+export class MapUsersRepository
   implements EntityRepository<UserEntity, CreateUserDto, UpdateUserDto>
 {
   users: Map<string, UserEntity> = new Map();

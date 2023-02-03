@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { MapUserRepository } from './entity/MapUserRepository';
-import { MapTrackRepository } from './entity/MapTrackRepository';
+import { MapUsersRepository } from './entity/MapUsersRepository';
+import { MapTracksRepository } from './entity/MapTracksRepository';
 
 @Module({
-  providers: [MapUserRepository, MapTrackRepository],
-  exports: [MapUserRepository, MapTrackRepository],
+  providers: [MapUsersRepository, MapTracksRepository],
+  exports: [MapUsersRepository, MapTracksRepository],
 })
 export class EntityRepositoryModule {}

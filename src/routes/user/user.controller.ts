@@ -6,7 +6,6 @@ import {
   Param,
   Delete,
   Put,
-  Header,
   ParseUUIDPipe,
   HttpStatus,
   HttpException,
@@ -17,13 +16,25 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ValidationBodyPipe } from '../utils/validation-body.pipe';
 import { UserEntity } from './entities/user.entity';
+import {
+  ApiBadRequestResponse,
+  ApiCreatedResponse,
+  ApiNoContentResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+} from '@nestjs/swagger';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly usersService: UserService) {}
 
   @Post()
-  @Header('content-type', 'application/json')
+  @ApiCreatedResponse({
+    description: 'The user has been successfully created.',
+  })
+  @ApiBadRequestResponse({
+    description: 'Request body does not contain required fields',
+  })
   async create(
     @Body(new ValidationBodyPipe()) createUserDto: CreateUserDto,
   ): Promise<Omit<UserEntity, 'password'>> {
@@ -32,13 +43,20 @@ export class UserController {
   }
 
   @Get()
-  @Header('content-type', 'application/json')
+  @ApiOkResponse({
+    description: 'All users records.',
+  })
   async findAll(): Promise<Omit<UserEntity, 'password'>[]> {
     const users: UserEntity[] = await this.usersService.findAll();
     return users.map((user) => this.usersService.deletePassword(user));
   }
 
   @Get(':id')
+  @ApiOkResponse({ description: 'Record with id === userId if it exists' })
+  @ApiBadRequestResponse({ description: 'UserId is invalid (not uuid)' })
+  @ApiNotFoundResponse({
+    description: "Record with id === userId doesn't exist",
+  })
   async findOne(
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<Omit<UserEntity, 'password'>> {
@@ -52,6 +70,12 @@ export class UserController {
   }
 
   @Put(':id')
+  @ApiOkResponse({ description: 'Updated record if request is valid' })
+  @ApiBadRequestResponse({ description: 'UserId is invalid (not uuid)' })
+  @ApiNotFoundResponse({
+    description: "Record with id === userId doesn't exist",
+  })
+  @ApiBadRequestResponse({ description: 'oldPassword is wrong' })
   async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body(new ValidationBodyPipe()) updateUserDto: UpdateUserDto,
@@ -68,6 +92,11 @@ export class UserController {
   }
 
   @Delete(':id')
+  @ApiNoContentResponse({ description: 'Record is found and deleted' })
+  @ApiBadRequestResponse({ description: 'UserId is invalid (not uuid)' })
+  @ApiNotFoundResponse({
+    description: "Record with id === userId doesn't exist",
+  })
   @HttpCode(HttpStatus.NO_CONTENT)
   async remove(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
     const deleted: void | null = await this.usersService.remove(id);
