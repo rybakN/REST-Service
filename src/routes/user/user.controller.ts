@@ -43,7 +43,11 @@ export class UserController {
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<Omit<UserEntity, 'password'>> {
     const user: UserEntity | null = await this.usersService.findOne(id);
-    if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    if (!user)
+      throw new HttpException(
+        `User with id: ${id} not found`,
+        HttpStatus.NOT_FOUND,
+      );
     return this.usersService.deletePassword(user);
   }
 
@@ -56,18 +60,22 @@ export class UserController {
     if (typeof updated === 'boolean')
       throw new HttpException('Wrong password', HttpStatus.FORBIDDEN);
     if (!updated)
-      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+      throw new HttpException(
+        `User with id: ${id} not found`,
+        HttpStatus.NOT_FOUND,
+      );
     return this.usersService.deletePassword(updated);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async remove(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<Omit<UserEntity, 'password'>> {
-    const deleted: UserEntity | null = await this.usersService.remove(id);
-    if (!deleted)
-      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-    return this.usersService.deletePassword(deleted);
+  async remove(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
+    const deleted: void | null = await this.usersService.remove(id);
+    if (deleted === null)
+      throw new HttpException(
+        `User with id: ${id} not found`,
+        HttpStatus.NOT_FOUND,
+      );
+    return;
   }
 }
