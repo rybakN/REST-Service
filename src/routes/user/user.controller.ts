@@ -35,7 +35,7 @@ export class UserController {
   @ApiBadRequestResponse({
     description: 'Request body does not contain required fields',
   })
-  async create(
+  public async create(
     @Body(new ValidationBodyPipe()) createUserDto: CreateUserDto,
   ): Promise<Omit<UserEntity, 'password'>> {
     const user: UserEntity = await this.usersService.create(createUserDto);
@@ -46,7 +46,7 @@ export class UserController {
   @ApiOkResponse({
     description: 'All users records.',
   })
-  async findAll(): Promise<Omit<UserEntity, 'password'>[]> {
+  public async findAll(): Promise<Omit<UserEntity, 'password'>[]> {
     const users: UserEntity[] = await this.usersService.findAll();
     return users.map((user) => this.usersService.deletePassword(user));
   }
@@ -57,7 +57,7 @@ export class UserController {
   @ApiNotFoundResponse({
     description: "Record with id === userId doesn't exist",
   })
-  async findOne(
+  public async findOne(
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<Omit<UserEntity, 'password'>> {
     const user: UserEntity | null = await this.usersService.findOne(id);
@@ -76,7 +76,7 @@ export class UserController {
     description: "Record with id === userId doesn't exist",
   })
   @ApiBadRequestResponse({ description: 'oldPassword is wrong' })
-  async update(
+  public async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body(new ValidationBodyPipe()) updateUserDto: UpdateUserDto,
   ): Promise<Omit<UserEntity, 'password'>> {
@@ -98,7 +98,7 @@ export class UserController {
     description: "Record with id === userId doesn't exist",
   })
   @HttpCode(HttpStatus.NO_CONTENT)
-  async remove(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
+  public async remove(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
     const deleted: void | null = await this.usersService.remove(id);
     if (deleted === null)
       throw new HttpException(

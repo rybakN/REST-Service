@@ -9,9 +9,9 @@ import { UpdateArtistDto } from '../../artists/dto/update-artist.dto';
 export class MapArtistsRepository
   implements EntityRepository<ArtistEntity, CreateArtistDto, UpdateArtistDto>
 {
-  artists: Map<string, ArtistEntity> = new Map();
+  private artists: Map<string, ArtistEntity> = new Map();
 
-  async getAll(): Promise<ArtistEntity[]> {
+  public async getAll(): Promise<ArtistEntity[]> {
     const artist: ArtistEntity[] = [];
     for (const key of this.artists.keys()) {
       artist.push(this.artists.get(key));
@@ -19,13 +19,13 @@ export class MapArtistsRepository
     return artist;
   }
 
-  async getOne(id: string): Promise<ArtistEntity> {
+  public async getOne(id: string): Promise<ArtistEntity> {
     const artist: ArtistEntity | null = this.artists.get(id);
     if (!artist) return null;
     return artist;
   }
 
-  async create(createArtistDto: CreateArtistDto): Promise<ArtistEntity> {
+  public async create(createArtistDto: CreateArtistDto): Promise<ArtistEntity> {
     const key: string = uuidV4();
     const artist: ArtistEntity = {
       ...createArtistDto,
@@ -35,7 +35,7 @@ export class MapArtistsRepository
     return artist;
   }
 
-  async update(
+  public async update(
     id: string,
     updateArtistDto: UpdateArtistDto,
   ): Promise<ArtistEntity | null> {
@@ -46,7 +46,7 @@ export class MapArtistsRepository
     return artist;
   }
 
-  async delete(id: string): Promise<void | null> {
+  public async delete(id: string): Promise<void | null> {
     const artist: ArtistEntity | null = await this.getOne(id);
     if (!artist) return null;
     this.artists.delete(id);

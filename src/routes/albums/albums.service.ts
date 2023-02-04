@@ -1,22 +1,22 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CreateArtistDto } from './dto/create-artist.dto';
-import { UpdateArtistDto } from './dto/update-artist.dto';
+import { CreateAlbumDto } from './dto/create-album.dto';
+import { UpdateAlbumDto } from './dto/update-album.dto';
+import { MapAlbumsRepository } from '../entity-repository/entity/MapAlbumsRepository';
 import { EntityRepository } from '../entity-repository/interface/EntityRepository';
-import { MapArtistsRepository } from '../entity-repository/entity/MapArtistsRepository';
-import { ArtistEntity } from './entities/artist.entity';
+import { AlbumEntity } from './entities/album.entity';
 import { MapTracksRepository } from '../entity-repository/entity/MapTracksRepository';
 import { TrackEntity } from '../tracks/entities/track.entity';
 import { CreateTrackDto } from '../tracks/dto/create-track.dto';
 import { UpdateTrackDto } from '../tracks/dto/update-track.dto';
 
 @Injectable()
-export class ArtistsService {
+export class AlbumsService {
   constructor(
-    @Inject(MapArtistsRepository)
-    private readonly artists: EntityRepository<
-      ArtistEntity,
-      CreateArtistDto,
-      UpdateArtistDto
+    @Inject(MapAlbumsRepository)
+    private readonly albums: EntityRepository<
+      AlbumEntity,
+      CreateAlbumDto,
+      UpdateAlbumDto
     >,
     @Inject(MapTracksRepository)
     private readonly tracks: EntityRepository<
@@ -25,34 +25,34 @@ export class ArtistsService {
       UpdateTrackDto
     >,
   ) {}
-  public async create(createArtistDto: CreateArtistDto): Promise<ArtistEntity> {
-    return await this.artists.create(createArtistDto);
+  public async create(createAlbumDto: CreateAlbumDto): Promise<AlbumEntity> {
+    return await this.albums.create(createAlbumDto);
   }
 
-  public async findAll(): Promise<ArtistEntity[]> {
-    return await this.artists.getAll();
+  public async findAll(): Promise<AlbumEntity[]> {
+    return await this.albums.getAll();
   }
 
   public async findOne(id: string) {
-    const artist: ArtistEntity | null = await this.artists.getOne(id);
+    const artist: AlbumEntity | null = await this.albums.getOne(id);
     if (!artist) return null;
     return artist;
   }
 
   public async update(
     id: string,
-    updateArtistDto: UpdateArtistDto,
-  ): Promise<ArtistEntity | null> {
-    const artist: ArtistEntity | null = await this.findOne(id);
+    updateAlbumDto: UpdateAlbumDto,
+  ): Promise<AlbumEntity | null> {
+    const artist: AlbumEntity | null = await this.findOne(id);
     if (!artist) return null;
-    return await this.artists.update(id, updateArtistDto);
+    return await this.albums.update(id, updateAlbumDto);
   }
 
   public async remove(id: string): Promise<void | null> {
-    const deleted: ArtistEntity | null = await this.artists.getOne(id);
+    const deleted: AlbumEntity | null = await this.albums.getOne(id);
     if (!deleted) return null;
-    await this.deleteArtistIdInTracks(id, 'artistId');
-    return await this.artists.delete(id);
+    await this.deleteArtistIdInTracks(id, 'albumId');
+    return await this.albums.delete(id);
   }
 
   private async deleteArtistIdInTracks(id: string, key: string): Promise<void> {

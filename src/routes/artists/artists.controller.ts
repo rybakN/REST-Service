@@ -35,7 +35,7 @@ export class ArtistsController {
   @ApiBadRequestResponse({
     description: 'Request body does not contain required fields',
   })
-  async create(
+  public async create(
     @Body(new ValidationBodyPipe()) createArtistDto: CreateArtistDto,
   ) {
     return await this.artistsService.create(createArtistDto);
@@ -45,7 +45,7 @@ export class ArtistsController {
   @ApiOkResponse({
     description: 'All artist records.',
   })
-  async findAll(): Promise<ArtistEntity[]> {
+  public async findAll(): Promise<ArtistEntity[]> {
     return await this.artistsService.findAll();
   }
 
@@ -55,7 +55,9 @@ export class ArtistsController {
   @ApiNotFoundResponse({
     description: "Record with id === artistId doesn't exist",
   })
-  async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<ArtistEntity> {
+  public async findOne(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<ArtistEntity> {
     const artist: ArtistEntity | null = await this.artistsService.findOne(id);
     if (!artist)
       throw new HttpException(
@@ -71,7 +73,7 @@ export class ArtistsController {
   @ApiNotFoundResponse({
     description: "Record with id === artistId doesn't exist",
   })
-  async update(
+  public async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body(new ValidationBodyPipe()) updateArtistDto: UpdateArtistDto,
   ): Promise<ArtistEntity> {
@@ -94,7 +96,7 @@ export class ArtistsController {
     description: "Record with id === artistId doesn't exist",
   })
   @HttpCode(HttpStatus.NO_CONTENT)
-  async remove(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
+  public async remove(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
     const deleted: void | null = await this.artistsService.remove(id);
     if (deleted === null)
       throw new HttpException(

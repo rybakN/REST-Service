@@ -34,7 +34,9 @@ export class TracksController {
   @ApiBadRequestResponse({
     description: 'Request body does not contain required fields',
   })
-  async create(@Body(new ValidationBodyPipe()) createTrackDto: CreateTrackDto) {
+  public async create(
+    @Body(new ValidationBodyPipe()) createTrackDto: CreateTrackDto,
+  ) {
     return await this.tracksService.create(createTrackDto);
   }
 
@@ -42,7 +44,7 @@ export class TracksController {
   @ApiOkResponse({
     description: 'All tracks records.',
   })
-  async findAll(): Promise<TrackEntity[]> {
+  public async findAll(): Promise<TrackEntity[]> {
     return await this.tracksService.findAll();
   }
 
@@ -52,7 +54,9 @@ export class TracksController {
   @ApiNotFoundResponse({
     description: "Record with id === trackId doesn't exist",
   })
-  async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<TrackEntity> {
+  public async findOne(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<TrackEntity> {
     const track: TrackEntity | null = await this.tracksService.findOne(id);
     if (!track)
       throw new HttpException(
@@ -68,7 +72,7 @@ export class TracksController {
   @ApiNotFoundResponse({
     description: "Record with id === trackId doesn't exist",
   })
-  async update(
+  public async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body(new ValidationBodyPipe()) updateTrackDto: UpdateTrackDto,
   ) {
@@ -91,7 +95,7 @@ export class TracksController {
     description: "Record with id === trackId doesn't exist",
   })
   @HttpCode(HttpStatus.NO_CONTENT)
-  async remove(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
+  public async remove(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
     const deleted: void | null = await this.tracksService.remove(id);
     if (deleted === null)
       throw new HttpException(

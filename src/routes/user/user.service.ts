@@ -9,21 +9,25 @@ import { EntityRepository } from '../entity-repository/interface/EntityRepositor
 export class UserService {
   constructor(
     @Inject(MapUsersRepository)
-    private users: EntityRepository<UserEntity, CreateUserDto, UpdateUserDto>,
+    private readonly users: EntityRepository<
+      UserEntity,
+      CreateUserDto,
+      UpdateUserDto
+    >,
   ) {}
-  async create(createUserDto: CreateUserDto): Promise<UserEntity> {
+  public async create(createUserDto: CreateUserDto): Promise<UserEntity> {
     return await this.users.create(createUserDto);
   }
 
-  async findAll(): Promise<UserEntity[]> {
+  public async findAll(): Promise<UserEntity[]> {
     return await this.users.getAll();
   }
 
-  async findOne(id: string): Promise<UserEntity> {
+  public async findOne(id: string): Promise<UserEntity> {
     return await this.users.getOne(id);
   }
 
-  async update(
+  public async update(
     id: string,
     updateUserDto: UpdateUserDto,
   ): Promise<UserEntity | null | boolean> {
@@ -33,13 +37,13 @@ export class UserService {
     return this.users.update(id, updateUserDto);
   }
 
-  async remove(id: string): Promise<void | null> {
+  public async remove(id: string): Promise<void | null> {
     const user: UserEntity | null = await this.findOne(id);
     if (!user) return null;
     return await this.users.delete(id);
   }
 
-  deletePassword(user: UserEntity): Omit<UserEntity, 'password'> {
+  public deletePassword(user: UserEntity): Omit<UserEntity, 'password'> {
     return {
       id: user.id,
       login: user.login,

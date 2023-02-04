@@ -9,9 +9,9 @@ import { UpdateTrackDto } from '../../tracks/dto/update-track.dto';
 export class MapTracksRepository
   implements EntityRepository<TrackEntity, CreateTrackDto, UpdateTrackDto>
 {
-  tracks: Map<string, TrackEntity> = new Map();
+  private tracks: Map<string, TrackEntity> = new Map();
 
-  async getAll(): Promise<TrackEntity[]> {
+  public async getAll(): Promise<TrackEntity[]> {
     const track: TrackEntity[] = [];
     for (const key of this.tracks.keys()) {
       track.push(this.tracks.get(key));
@@ -19,13 +19,13 @@ export class MapTracksRepository
     return track;
   }
 
-  async getOne(id: string): Promise<TrackEntity> {
+  public async getOne(id: string): Promise<TrackEntity> {
     const track: TrackEntity | null = this.tracks.get(id);
     if (!track) return null;
     return track;
   }
 
-  async create(createTrackDto: CreateTrackDto): Promise<TrackEntity> {
+  public async create(createTrackDto: CreateTrackDto): Promise<TrackEntity> {
     const key: string = uuidV4();
     const track: TrackEntity = {
       ...createTrackDto,
@@ -35,7 +35,7 @@ export class MapTracksRepository
     return track;
   }
 
-  async update(
+  public async update(
     id: string,
     updateTrackDto: UpdateTrackDto,
   ): Promise<TrackEntity | null> {
@@ -46,7 +46,7 @@ export class MapTracksRepository
     return track;
   }
 
-  async delete(id: string): Promise<void | null> {
+  public async delete(id: string): Promise<void | null> {
     const track: TrackEntity | null = await this.getOne(id);
     if (!track) return null;
     this.tracks.delete(id);
