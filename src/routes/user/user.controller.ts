@@ -19,6 +19,7 @@ import { UserEntity } from './entities/user.entity';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
+  ApiForbiddenResponse,
   ApiNoContentResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
@@ -77,7 +78,7 @@ export class UserController {
   @ApiNotFoundResponse({
     description: "Record with id === userId doesn't exist",
   })
-  @ApiBadRequestResponse({ description: 'oldPassword is wrong' })
+  @ApiForbiddenResponse({ description: 'oldPassword is wrong' })
   public async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body(new ValidationBodyPipe()) updateUserDto: UpdateUserDto,
