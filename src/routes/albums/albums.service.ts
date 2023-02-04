@@ -8,6 +8,7 @@ import { MapTracksRepository } from '../entity-repository/entity/MapTracksReposi
 import { TrackEntity } from '../tracks/entities/track.entity';
 import { CreateTrackDto } from '../tracks/dto/create-track.dto';
 import { UpdateTrackDto } from '../tracks/dto/update-track.dto';
+import { MapFavoritesRepository } from '../entity-repository/entity/MapFavoritesRepository';
 
 @Injectable()
 export class AlbumsService {
@@ -24,6 +25,8 @@ export class AlbumsService {
       CreateTrackDto,
       UpdateTrackDto
     >,
+    @Inject(MapFavoritesRepository)
+    private readonly favorites: MapFavoritesRepository,
   ) {}
   public async create(createAlbumDto: CreateAlbumDto): Promise<AlbumEntity> {
     return await this.albums.create(createAlbumDto);
@@ -52,6 +55,7 @@ export class AlbumsService {
     const deleted: AlbumEntity | null = await this.albums.getOne(id);
     if (!deleted) return null;
     await this.deleteArtistIdInTracks(id, 'albumId');
+    await this.favorites.delete(id, 'albums');
     return await this.albums.delete(id);
   }
 

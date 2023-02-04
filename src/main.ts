@@ -8,15 +8,16 @@ dotenv.config();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const PORT = process.env.PORT || 4000;
   const config = new DocumentBuilder()
-    .setBasePath('http://localhost:4000/')
-    .setTitle('REST API')
-    .setDescription('REST API description')
+    .setBasePath(`http://localhost:${PORT || 4000}/`)
+    .setTitle('Home Library Service')
+    .setDescription('Home music library service')
     .setVersion('1.0')
+    .addServer('/api')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
-  const PORT = process.env.PORT || 4000;
   await app.listen(PORT);
 }
 bootstrap();

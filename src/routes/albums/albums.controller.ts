@@ -20,14 +20,15 @@ import {
   ApiNoContentResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
+  ApiTags,
 } from '@nestjs/swagger';
 import { ValidationBodyPipe } from '../utils/validation-body.pipe';
 import { AlbumEntity } from './entities/album.entity';
 
+@ApiTags('Album')
 @Controller('album')
 export class AlbumsController {
   constructor(private readonly albumsService: AlbumsService) {}
-
   @Post()
   @ApiCreatedResponse({
     description: 'The album has been successfully created.',

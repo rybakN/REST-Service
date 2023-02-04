@@ -6,6 +6,7 @@ import { TracksModule } from './routes/tracks/tracks.module';
 import { EntityRepositoryModule } from './routes/entity-repository/entity-repository.module';
 import { ArtistsModule } from './routes/artists/artists.module';
 import { AlbumsModule } from './routes/albums/albums.module';
+import { FavoritesModule } from './routes/favorites/favorites.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { AlbumsModule } from './routes/albums/albums.module';
     EntityRepositoryModule,
     ArtistsModule,
     AlbumsModule,
+    FavoritesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

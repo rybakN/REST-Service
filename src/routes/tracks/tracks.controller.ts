@@ -22,8 +22,10 @@ import {
   ApiNoContentResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
+  ApiTags,
 } from '@nestjs/swagger';
 
+@ApiTags('Track')
 @Controller('track')
 export class TracksController {
   constructor(private readonly tracksService: TracksService) {}
