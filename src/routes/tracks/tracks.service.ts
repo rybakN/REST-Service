@@ -18,6 +18,8 @@ export class TracksService {
     private readonly favorites: MapFavoritesRepository,
   ) {}
   public async create(createTrackDto: CreateTrackDto): Promise<TrackEntity> {
+    if (createTrackDto.artistId === undefined) createTrackDto.artistId = null;
+    if (createTrackDto.albumId === undefined) createTrackDto.albumId = null;
     return await this.tracks.create(createTrackDto);
   }
 

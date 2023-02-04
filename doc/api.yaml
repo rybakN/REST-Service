@@ -281,8 +281,6 @@ paths:
               required:
                 - name
                 - duration
-                - albumId
-                - artistId
       responses:
         201:
           description: Successful operation
@@ -345,11 +343,6 @@ paths:
                   type: string
                   format: uuid
                   nullable: true
-              required:
-                - name
-                - duration
-                - albumId
-                - artistId
       responses:
         200:
           description: The track has been updated.
@@ -432,7 +425,6 @@ paths:
               required:
                 - name
                 - year
-                - artistId
       responses:
         201:
           description: Album is created
@@ -487,10 +479,6 @@ paths:
                   type: string
                   format: uuid
                   nullable: true
-              required:
-                - name
-                - year
-                - artistId
       responses:
         200:
           description: The album has been updated.
@@ -597,9 +585,6 @@ paths:
                   type: string
                 grammy:
                   type: boolean
-              required:
-                - name
-                - grammy
       responses:
         200:
           description: The artist has been updated.

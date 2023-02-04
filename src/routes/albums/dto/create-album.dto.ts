@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsString, IsUUID, ValidateIf } from 'class-validator';
+import {
+  IsNumber,
+  IsOptional,
+  IsString,
+  IsUUID,
+  ValidateIf,
+} from 'class-validator';
 
 export class CreateAlbumDto {
   @ApiProperty()
@@ -11,6 +17,7 @@ export class CreateAlbumDto {
   @ApiProperty({
     description: 'string or null',
   })
+  @IsOptional()
   @IsUUID()
   @ValidateIf((object, value) => value !== null)
   artistId: string | null;

@@ -29,6 +29,7 @@ export class AlbumsService {
     private readonly favorites: MapFavoritesRepository,
   ) {}
   public async create(createAlbumDto: CreateAlbumDto): Promise<AlbumEntity> {
+    if (createAlbumDto.artistId === undefined) createAlbumDto.artistId = null;
     return await this.albums.create(createAlbumDto);
   }
 
