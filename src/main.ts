@@ -14,10 +14,10 @@ async function bootstrap() {
     .setTitle('Home Library Service')
     .setDescription('Home music library service')
     .setVersion('1.0')
-    .addServer('/api')
+    .addServer('/')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('doc', app, document);
   await app.listen(PORT);
 }
 bootstrap();
