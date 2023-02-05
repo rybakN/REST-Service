@@ -1,20 +1,12 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserEntity } from './entities/user.entity';
 import { MapUsersRepository } from '../entity-repository/entity/MapUsersRepository';
-import { EntityRepository } from '../entity-repository/interface/EntityRepository';
 
 @Injectable()
 export class UserService {
-  constructor(
-    @Inject(MapUsersRepository)
-    private readonly users: EntityRepository<
-      UserEntity,
-      CreateUserDto,
-      UpdateUserDto
-    >,
-  ) {}
+  constructor(private readonly users: MapUsersRepository) {}
   public async create(createUserDto: CreateUserDto): Promise<UserEntity> {
     return await this.users.create(createUserDto);
   }

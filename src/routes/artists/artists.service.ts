@@ -1,18 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
-import { MapArtistsRepository } from '../entity-repository/entity/MapArtistsRepository';
 import { ArtistEntity } from './entities/artist.entity';
-import { MapTracksRepository } from '../entity-repository/entity/MapTracksRepository';
 import { TrackEntity } from '../tracks/entities/track.entity';
 import { UpdateTrackDto } from '../tracks/dto/update-track.dto';
 import { MapFavoritesRepository } from '../entity-repository/entity/MapFavoritesRepository';
+import { MapEntityRepository } from '../entity-repository/entity/MapEntityRepository';
+import { CreateTrackDto } from '../tracks/dto/create-track.dto';
 
 @Injectable()
 export class ArtistsService {
   constructor(
-    private readonly artists: MapArtistsRepository,
-    private readonly tracks: MapTracksRepository,
+    private readonly artists: MapEntityRepository<
+      ArtistEntity,
+      CreateArtistDto,
+      UpdateArtistDto
+    >,
+    private readonly tracks: MapEntityRepository<
+      TrackEntity,
+      CreateTrackDto,
+      UpdateTrackDto
+    >,
     private readonly favorites: MapFavoritesRepository,
   ) {}
   public async create(createArtistDto: CreateArtistDto): Promise<ArtistEntity> {
