@@ -25,17 +25,17 @@ export class AlbumsService {
   }
 
   public async findOne(id: string) {
-    const artist: AlbumEntity | null = await this.albums.getOne(id);
-    if (!artist) return null;
-    return artist;
+    const album: AlbumEntity | null = await this.albums.getOne(id);
+    if (!album) return null;
+    return album;
   }
 
   public async update(
     id: string,
     updateAlbumDto: UpdateAlbumDto,
   ): Promise<AlbumEntity | null> {
-    const artist: AlbumEntity | null = await this.findOne(id);
-    if (!artist) return null;
+    const album: AlbumEntity | null = await this.findOne(id);
+    if (!album) return null;
     return await this.albums.update(id, updateAlbumDto);
   }
 
