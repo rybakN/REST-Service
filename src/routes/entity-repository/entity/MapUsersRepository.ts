@@ -11,16 +11,15 @@ export class MapUsersRepository
   extends MapEntityRepository<UserEntity, CreateUserDto, UpdateUserDto>
   implements EntityRepository<UserEntity, CreateUserDto, UpdateUserDto>
 {
-  protected entities: Map<string, UserEntity> = new Map();
-
   public async create(createUserDTO: CreateUserDto): Promise<UserEntity> {
     const key: string = uuidV4();
+    const now = Number(new Date());
     const user: UserEntity = {
       ...createUserDTO,
       id: key,
       version: 1,
-      createdAt: Number(new Date()),
-      updatedAt: Number(new Date()),
+      createdAt: now,
+      updatedAt: now,
     };
     this.entities.set(key, user);
     return user;

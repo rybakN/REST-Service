@@ -1,11 +1,7 @@
 import { v4 as uuidV4 } from 'uuid';
 
-export abstract class MapEntityRepository<
-  Entity,
-  CreateEntityDto,
-  UpdateEntityDto,
-> {
-  protected abstract entities: Map<string, Entity>;
+export class MapEntityRepository<Entity, CreateEntityDto, UpdateEntityDto> {
+  protected entities: Map<string, Entity> = new Map();
   public async getAll(): Promise<Entity[]> {
     const entities: Entity[] = [];
     for (const key of this.entities.keys()) {

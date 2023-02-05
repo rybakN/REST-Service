@@ -4,6 +4,7 @@ import { MapTracksRepository } from './entity/MapTracksRepository';
 import { MapArtistsRepository } from './entity/MapArtistsRepository';
 import { MapAlbumsRepository } from './entity/MapAlbumsRepository';
 import { MapFavoritesRepository } from './entity/MapFavoritesRepository';
+import { MapEntityRepository } from './entity/MapEntityRepository';
 
 @Module({
   providers: [
@@ -12,6 +13,7 @@ import { MapFavoritesRepository } from './entity/MapFavoritesRepository';
     MapArtistsRepository,
     MapAlbumsRepository,
     MapFavoritesRepository,
+    MapEntityRepository,
   ],
   exports: [
     MapUsersRepository,
@@ -19,6 +21,7 @@ import { MapFavoritesRepository } from './entity/MapFavoritesRepository';
     MapArtistsRepository,
     MapAlbumsRepository,
     MapFavoritesRepository,
+    MapEntityRepository,
   ],
 })
 export class EntityRepositoryModule {}

@@ -8,7 +8,4 @@ import { MapEntityRepository } from './MapEntityRepository';
 @Injectable()
 export class MapTracksRepository
   extends MapEntityRepository<TrackEntity, CreateTrackDto, UpdateTrackDto>
-  implements EntityRepository<TrackEntity, CreateTrackDto, UpdateTrackDto>
-{
-  protected entities: Map<string, TrackEntity> = new Map();
-}
+  implements EntityRepository<TrackEntity, CreateTrackDto, UpdateTrackDto> {}
