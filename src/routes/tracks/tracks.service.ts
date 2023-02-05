@@ -1,20 +1,13 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
 import { TrackEntity } from './entities/track.entity';
-import { EntityRepository } from '../entity-repository/interface/EntityRepository';
 import { MapTracksRepository } from '../entity-repository/entity/MapTracksRepository';
 import { MapFavoritesRepository } from '../entity-repository/entity/MapFavoritesRepository';
 @Injectable()
 export class TracksService {
   constructor(
-    @Inject(MapTracksRepository)
-    private readonly tracks: EntityRepository<
-      TrackEntity,
-      CreateTrackDto,
-      UpdateTrackDto
-    >,
-    @Inject(MapFavoritesRepository)
+    private readonly tracks: MapTracksRepository,
     private readonly favorites: MapFavoritesRepository,
   ) {}
   public async create(createTrackDto: CreateTrackDto): Promise<TrackEntity> {

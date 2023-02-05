@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { FavoritesRepositoryResponse } from '../entity-repository/interface/FavoritesRepositoryResponse';
 import { MapFavoritesRepository } from '../entity-repository/entity/MapFavoritesRepository';
 import { Favorite } from './entities/favorite.entity';
@@ -9,14 +9,10 @@ import { MapTracksRepository } from '../entity-repository/entity/MapTracksReposi
 @Injectable()
 export class FavoritesService {
   constructor(
-    @Inject(MapFavoritesRepository)
     private readonly favoritesRepo: MapFavoritesRepository,
 
-    @Inject(MapArtistsRepository)
     private readonly artists: MapArtistsRepository,
-    @Inject(MapAlbumsRepository)
     private readonly albums: MapAlbumsRepository,
-    @Inject(MapTracksRepository)
     private readonly tracks: MapTracksRepository,
   ) {}
 

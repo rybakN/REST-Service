@@ -4,9 +4,9 @@ import { FavoritesRepositoryResponse } from '../interface/FavoritesRepositoryRes
 
 @Injectable()
 export class MapFavoritesRepository implements FavoritesRepository {
-  public readonly artists: string[] = [];
-  public readonly albums: string[] = [];
-  public readonly tracks: string[] = [];
+  private artists: string[] = [];
+  private albums: string[] = [];
+  private tracks: string[] = [];
 
   public async getAll(): Promise<FavoritesRepositoryResponse> {
     return {

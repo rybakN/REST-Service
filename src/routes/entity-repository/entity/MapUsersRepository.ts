@@ -2,10 +2,10 @@ import { UserEntity } from '../../user/entities/user.entity';
 import { CreateUserDto } from '../../user/dto/create-user.dto';
 import { UpdateUserDto } from '../../user/dto/update-user.dto';
 import { v4 as uuidV4 } from 'uuid';
-import { Injectable, Scope } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { EntityRepository } from '../interface/EntityRepository';
 
-@Injectable({ scope: Scope.DEFAULT })
+@Injectable()
 export class MapUsersRepository
   implements EntityRepository<UserEntity, CreateUserDto, UpdateUserDto>
 {
