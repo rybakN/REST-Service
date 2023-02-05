@@ -1,6 +1,9 @@
 import { v4 as uuidV4 } from 'uuid';
+import { EntityRepository } from '../interface/EntityRepository';
 
-export class MapEntityRepository<Entity, CreateEntityDto, UpdateEntityDto> {
+export class MapEntityRepository<Entity, CreateEntityDto, UpdateEntityDto>
+  implements EntityRepository<Entity, CreateEntityDto, UpdateEntityDto>
+{
   protected entities: Map<string, Entity> = new Map();
   public async getAll(): Promise<Entity[]> {
     const entities: Entity[] = [];
