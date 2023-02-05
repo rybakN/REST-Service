@@ -34,14 +34,4 @@ export class UserService {
     if (!user) return null;
     return await this.users.delete(id);
   }
-
-  public deletePassword(user: UserEntity): Omit<UserEntity, 'password'> {
-    return {
-      id: user.id,
-      login: user.login,
-      version: user.version,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
-    };
-  }
 }

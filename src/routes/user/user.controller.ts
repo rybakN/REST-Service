@@ -10,6 +10,7 @@ import {
   HttpStatus,
   HttpException,
   HttpCode,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -25,7 +26,9 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { UserBodyInterceptor } from '../utils/user-body.interceptor';
 
+@UseInterceptors(UserBodyInterceptor)
 @ApiTags('User')
 @Controller('user')
 export class UserController {
@@ -41,8 +44,7 @@ export class UserController {
   public async create(
     @Body(new ValidationBodyPipe()) createUserDto: CreateUserDto,
   ): Promise<Omit<UserEntity, 'password'>> {
-    const user: UserEntity = await this.usersService.create(createUserDto);
-    return this.usersService.deletePassword(user);
+    return await this.usersService.create(createUserDto);
   }
 
   @Get()
@@ -50,8 +52,7 @@ export class UserController {
     description: 'All users records.',
   })
   public async findAll(): Promise<Omit<UserEntity, 'password'>[]> {
-    const users: UserEntity[] = await this.usersService.findAll();
-    return users.map((user) => this.usersService.deletePassword(user));
+    return await this.usersService.findAll();
   }
 
   @Get(':id')
@@ -69,7 +70,7 @@ export class UserController {
         `User with id: ${id} not found`,
         HttpStatus.NOT_FOUND,
       );
-    return this.usersService.deletePassword(user);
+    return user;
   }
 
   @Put(':id')
@@ -91,7 +92,7 @@ export class UserController {
         `User with id: ${id} not found`,
         HttpStatus.NOT_FOUND,
       );
-    return this.usersService.deletePassword(updated);
+    return updated;
   }
 
   @Delete(':id')
