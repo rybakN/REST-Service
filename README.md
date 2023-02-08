@@ -16,7 +16,10 @@ git clone {repository URL}
 ```
 npm install
 ```
-
+If you have installation problems, use the command with the force flag
+```
+npm install --force
+```
 ## Running application
 
 ```
