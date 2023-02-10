@@ -1,0 +1,23 @@
+services:
+  app:
+    build: .
+    command: sh -c "npm i && npm run watch"
+    ports:
+      - 3000:4000
+    working_dir: /usr/app
+    volumes:
+      - ./:/usr/app
+    environment:
+      POSTGRES_PASSWORD: secret
+    depends_on:
+      - postgres
+    restart: always
+  postgres:
+    build: ./database
+    volumes:
+      - rest-service-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: secret
+    restart: always
+volumes:
+  rest-service-data:
