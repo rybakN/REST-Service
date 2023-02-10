@@ -1,23 +1,32 @@
 services:
   app:
-    build: .
+    image: rybakn/rest-service-app:1
     command: sh -c "npm i && npm run watch"
     ports:
-      - 3000:4000
-    working_dir: /usr/app
+      - ${PORT}:${EXPOSE_PORT}
+    working_dir: /src
     volumes:
-      - ./:/usr/app
+      - ./:/src
     environment:
-      POSTGRES_PASSWORD: secret
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     depends_on:
       - postgres
     restart: always
+    networks:
+      rest-net: {}
   postgres:
-    build: ./database
+    image: rybakn/rest-service-postgres:1
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_EXPOSE_PORT}
     volumes:
       - rest-service-data:/var/lib/postgresql/data
     environment:
-      POSTGRES_PASSWORD: secret
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     restart: always
+    networks:
+      rest-net: {}
 volumes:
   rest-service-data:
+networks:
+  rest-net:
+    driver: bridge

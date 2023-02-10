@@ -1,8 +1,7 @@
 FROM node:18-alpine
 WORKDIR /usr/app
 COPY package*.json .
-RUN npm install --force
+RUN npm install
 COPY . .
-EXPOSE 4000
-CMD ["npm", "start"]
-
+EXPOSE ${EXPOSE_PORT}
+CMD ["npm", "watch"]
