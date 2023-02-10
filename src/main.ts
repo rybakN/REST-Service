@@ -1,23 +1,22 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { SwaggerModule } from '@nestjs/swagger';
 import * as dotenv from 'dotenv';
 import * as process from 'process';
+import * as fs from 'fs/promises';
+import * as path from 'path';
+import * as yaml from 'yaml';
 
 dotenv.config();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const PORT = process.env.PORT || 4000;
-  const config = new DocumentBuilder()
-    .setBasePath(`http://localhost:${PORT || 4000}/`)
-    .setTitle('Home Library Service')
-    .setDescription('Home music library service')
-    .setVersion('1.0')
-    .addServer('/')
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('doc', app, document);
+  const document = await fs.readFile(
+    path.join(__dirname, '..', 'doc/api.yaml'),
+    'utf-8',
+  );
+  SwaggerModule.setup('doc', app, yaml.parse(document));
   await app.listen(PORT);
 }
 bootstrap();
