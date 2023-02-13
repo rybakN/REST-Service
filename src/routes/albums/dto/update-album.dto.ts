@@ -1,4 +1,4 @@
-import { ApiProperty, PartialType } from '@nestjs/swagger';
+import { PartialType } from '@nestjs/mapped-types';
 import { CreateAlbumDto } from './create-album.dto';
 import {
   IsNumber,
@@ -10,16 +10,11 @@ import {
 
 export class UpdateAlbumDto extends PartialType(CreateAlbumDto) {
   @IsOptional()
-  @ApiProperty()
   @IsString()
   name: string;
   @IsOptional()
-  @ApiProperty()
   @IsNumber()
   year: number;
-  @ApiProperty({
-    description: 'string or null',
-  })
   @IsOptional()
   @IsUUID()
   @ValidateIf((object, value) => value !== null)

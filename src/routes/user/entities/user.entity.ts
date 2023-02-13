@@ -1,8 +1,17 @@
+import { Column, Entity, PrimaryColumn } from 'typeorm';
+
+@Entity()
 export class UserEntity {
-  id: string; // uuid v4
+  @PrimaryColumn()
+  id: string;
+  @Column()
   login: string;
+  @Column()
   password: string;
-  version: number; // integer number, increments on update
-  createdAt: number; // timestamp of creation
-  updatedAt: number; // timestamp of last update
+  @Column()
+  createdAt: number;
+  @Column()
+  updatedAt: number;
+  @Column()
+  version: number;
 }

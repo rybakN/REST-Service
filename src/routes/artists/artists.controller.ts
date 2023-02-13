@@ -12,31 +12,16 @@ import {
   HttpCode,
 } from '@nestjs/common';
 import { ArtistsService } from './artists.service';
-import {
-  ApiBadRequestResponse,
-  ApiCreatedResponse,
-  ApiNoContentResponse,
-  ApiNotFoundResponse,
-  ApiOkResponse,
-  ApiTags,
-} from '@nestjs/swagger';
 import { ValidationBodyPipe } from '../utils/validation-body.pipe';
 import { ArtistEntity } from './entities/artist.entity';
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
 
-@ApiTags('Artist')
 @Controller('artist')
 export class ArtistsController {
   constructor(private readonly artistsService: ArtistsService) {}
 
   @Post()
-  @ApiCreatedResponse({
-    description: 'The artist has been successfully created.',
-  })
-  @ApiBadRequestResponse({
-    description: 'Request body does not contain required fields',
-  })
   public async create(
     @Body(new ValidationBodyPipe()) createArtistDto: CreateArtistDto,
   ) {
@@ -44,19 +29,11 @@ export class ArtistsController {
   }
 
   @Get()
-  @ApiOkResponse({
-    description: 'All artist records.',
-  })
   public async findAll(): Promise<ArtistEntity[]> {
     return await this.artistsService.findAll();
   }
 
   @Get(':id')
-  @ApiOkResponse({ description: 'Record with id === artistId if it exists' })
-  @ApiBadRequestResponse({ description: 'ArtistId is invalid (not uuid)' })
-  @ApiNotFoundResponse({
-    description: "Record with id === artistId doesn't exist",
-  })
   public async findOne(
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<ArtistEntity> {
@@ -70,11 +47,6 @@ export class ArtistsController {
   }
 
   @Put(':id')
-  @ApiOkResponse({ description: 'Updated record if request is valid' })
-  @ApiBadRequestResponse({ description: 'ArtistId is invalid (not uuid)' })
-  @ApiNotFoundResponse({
-    description: "Record with id === artistId doesn't exist",
-  })
   public async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body(new ValidationBodyPipe()) updateArtistDto: UpdateArtistDto,
@@ -92,11 +64,6 @@ export class ArtistsController {
   }
 
   @Delete(':id')
-  @ApiNoContentResponse({ description: 'Record is found and deleted' })
-  @ApiBadRequestResponse({ description: 'ArtistId is invalid (not uuid)' })
-  @ApiNotFoundResponse({
-    description: "Record with id === artistId doesn't exist",
-  })
   @HttpCode(HttpStatus.NO_CONTENT)
   public async remove(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
     const deleted: void | null = await this.artistsService.remove(id);

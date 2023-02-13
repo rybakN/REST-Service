@@ -16,26 +16,11 @@ import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
 import { ValidationBodyPipe } from '../utils/validation-body.pipe';
 import { TrackEntity } from './entities/track.entity';
-import {
-  ApiBadRequestResponse,
-  ApiCreatedResponse,
-  ApiNoContentResponse,
-  ApiNotFoundResponse,
-  ApiOkResponse,
-  ApiTags,
-} from '@nestjs/swagger';
 
-@ApiTags('Track')
 @Controller('track')
 export class TracksController {
   constructor(private readonly tracksService: TracksService) {}
   @Post()
-  @ApiCreatedResponse({
-    description: 'The track has been successfully created.',
-  })
-  @ApiBadRequestResponse({
-    description: 'Request body does not contain required fields',
-  })
   public async create(
     @Body(new ValidationBodyPipe()) createTrackDto: CreateTrackDto,
   ) {
@@ -43,19 +28,11 @@ export class TracksController {
   }
 
   @Get()
-  @ApiOkResponse({
-    description: 'All tracks records.',
-  })
   public async findAll(): Promise<TrackEntity[]> {
     return await this.tracksService.findAll();
   }
 
   @Get(':id')
-  @ApiOkResponse({ description: 'Record with id === trackId if it exists' })
-  @ApiBadRequestResponse({ description: 'TrackId is invalid (not uuid)' })
-  @ApiNotFoundResponse({
-    description: "Record with id === trackId doesn't exist",
-  })
   public async findOne(
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<TrackEntity> {
@@ -69,11 +46,6 @@ export class TracksController {
   }
 
   @Put(':id')
-  @ApiOkResponse({ description: 'Updated record if request is valid' })
-  @ApiBadRequestResponse({ description: 'TrackId is invalid (not uuid)' })
-  @ApiNotFoundResponse({
-    description: "Record with id === trackId doesn't exist",
-  })
   public async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body(new ValidationBodyPipe()) updateTrackDto: UpdateTrackDto,
@@ -91,11 +63,6 @@ export class TracksController {
   }
 
   @Delete(':id')
-  @ApiNoContentResponse({ description: 'Record is found and deleted' })
-  @ApiBadRequestResponse({ description: 'TrackId is invalid (not uuid)' })
-  @ApiNotFoundResponse({
-    description: "Record with id === trackId doesn't exist",
-  })
   @HttpCode(HttpStatus.NO_CONTENT)
   public async remove(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
     const deleted: void | null = await this.tracksService.remove(id);

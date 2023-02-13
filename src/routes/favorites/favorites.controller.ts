@@ -13,24 +13,11 @@ import { FavoritesService } from './favorites.service';
 import { ArtistEntity } from '../artists/entities/artist.entity';
 import { AlbumEntity } from '../albums/entities/album.entity';
 import { TrackEntity } from '../tracks/entities/track.entity';
-import {
-  ApiBadRequestResponse,
-  ApiCreatedResponse,
-  ApiNoContentResponse,
-  ApiNotFoundResponse,
-  ApiOkResponse,
-  ApiTags,
-  ApiUnprocessableEntityResponse,
-} from '@nestjs/swagger';
 
-@ApiTags('Favorites')
 @Controller('favs')
 export class FavoritesController {
   constructor(private readonly favoritesService: FavoritesService) {}
 
-  @ApiOkResponse({
-    description: 'All favorites records.',
-  })
   @Get()
   async findAll(): Promise<{
     artists: ArtistEntity[];
@@ -40,13 +27,6 @@ export class FavoritesController {
     return this.favoritesService.findAll();
   }
 
-  @ApiCreatedResponse({
-    description: 'Record add to favorites',
-  })
-  @ApiBadRequestResponse({ description: 'ArtistId is invalid (not uuid)' })
-  @ApiUnprocessableEntityResponse({
-    description: "Record with id === ArtistId doesn't exist",
-  })
   @Post('/artist/:id')
   async addArtistInFav(
     @Param('id', ParseUUIDPipe) id: string,
@@ -63,13 +43,6 @@ export class FavoritesController {
     return [_id];
   }
 
-  @ApiNoContentResponse({
-    description: 'Record found and deleted',
-  })
-  @ApiBadRequestResponse({ description: 'ArtistId is invalid (not uuid)' })
-  @ApiNotFoundResponse({
-    description: "Record with id === ArtistId doesn't is not favorite",
-  })
   @Delete('/artist/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async delArtistInFav(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
@@ -85,13 +58,6 @@ export class FavoritesController {
     return;
   }
 
-  @ApiCreatedResponse({
-    description: 'Record add to favorites',
-  })
-  @ApiBadRequestResponse({ description: 'AlbumId is invalid (not uuid)' })
-  @ApiUnprocessableEntityResponse({
-    description: "Record with id === AlbumId doesn't exist",
-  })
   @Post('/album/:id')
   async addAlbumInFav(
     @Param('id', ParseUUIDPipe) id: string,
@@ -108,13 +74,6 @@ export class FavoritesController {
     return [_id];
   }
 
-  @ApiNoContentResponse({
-    description: 'Record found and deleted',
-  })
-  @ApiBadRequestResponse({ description: 'AlbumId is invalid (not uuid)' })
-  @ApiNotFoundResponse({
-    description: "Record with id === AlbumId doesn't is not favorite",
-  })
   @Delete('/album/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async delAlbumInFav(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
@@ -130,13 +89,6 @@ export class FavoritesController {
     return;
   }
 
-  @ApiCreatedResponse({
-    description: 'Record add to favorites',
-  })
-  @ApiBadRequestResponse({ description: 'TrackId is invalid (not uuid)' })
-  @ApiUnprocessableEntityResponse({
-    description: "Record with id === TrackId doesn't exist",
-  })
   @Post('/track/:id')
   async addTrackInFav(
     @Param('id', ParseUUIDPipe) id: string,
@@ -153,13 +105,6 @@ export class FavoritesController {
     return [_id];
   }
 
-  @ApiNoContentResponse({
-    description: 'Record found and deleted',
-  })
-  @ApiBadRequestResponse({ description: 'TrackId is invalid (not uuid)' })
-  @ApiNotFoundResponse({
-    description: "Record with id === TrackId doesn't is not favorite",
-  })
   @Delete('/track/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async delTrackInFav(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
