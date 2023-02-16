@@ -1,28 +1,31 @@
 import { UserEntity } from '../../user/entities/user.entity';
 import { CreateUserDto } from '../../user/dto/create-user.dto';
 import { UpdateUserDto } from '../../user/dto/update-user.dto';
-import { v4 as uuidV4 } from 'uuid';
 import { Injectable } from '@nestjs/common';
 import { EntityRepository } from '../interface/EntityRepository';
 import { MapEntityRepository } from './MapEntityRepository';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class MapUsersRepository
   extends MapEntityRepository<UserEntity, CreateUserDto, UpdateUserDto>
   implements EntityRepository<UserEntity, CreateUserDto, UpdateUserDto>
 {
+  constructor(
+    @InjectRepository(UserEntity) protected userRepo: Repository<UserEntity>,
+  ) {
+    super(userRepo);
+  }
   public async create(createUserDTO: CreateUserDto): Promise<UserEntity> {
-    const key: string = uuidV4();
     const now = Number(new Date());
-    const user: UserEntity = {
+    const user: Omit<UserEntity, 'id'> = {
       ...createUserDTO,
-      id: key,
       version: 1,
       createdAt: now,
       updatedAt: now,
     };
-    this.entities.set(key, user);
-    return user;
+    return this.userRepo.save(user);
   }
 
   public async update(

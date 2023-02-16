@@ -1,16 +1,21 @@
 import { v4 as uuidV4 } from 'uuid';
 import { EntityRepository } from '../interface/EntityRepository';
+import { Repository } from 'typeorm';
 
 export class MapEntityRepository<Entity, CreateEntityDto, UpdateEntityDto>
   implements EntityRepository<Entity, CreateEntityDto, UpdateEntityDto>
 {
   protected entities: Map<string, Entity> = new Map();
+  protected entityRepo: Repository<Entity>;
+  constructor(repository: Repository<Entity>) {
+    this.entityRepo = repository;
+  }
   public async getAll(): Promise<Entity[]> {
     const entities: Entity[] = [];
     for (const key of this.entities.keys()) {
       entities.push(this.entities.get(key));
     }
-    return entities;
+    return this.entityRepo.find();
   }
 
   public async getOne(id: string): Promise<Entity> {
