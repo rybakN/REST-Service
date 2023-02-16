@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.8'
 
 services:
   app:
@@ -23,11 +23,25 @@ services:
     volumes:
       - rest-service-data:/var/lib/postgresql/data
     environment:
+      POSTGRES_DB: "rest"
+      POSTGRES_USER: "rest"
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_USER: user1
     restart: always
     networks:
       rest-net: {}
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "habrpguser@habr.com"
+      PGADMIN_DEFAULT_PASSWORD: "pgadminpwd4habr"
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    volumes:
+      - ./pgadmin:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    restart: unless-stopped
+    networks:
+      - rest-net
 volumes:
   rest-service-data:
 networks:

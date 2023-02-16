@@ -7,6 +7,8 @@ import { EntityRepositoryModule } from './routes/entity-repository/entity-reposi
 import { ArtistsModule } from './routes/artists/artists.module';
 import { AlbumsModule } from './routes/albums/albums.module';
 import { FavoritesModule } from './routes/favorites/favorites.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmConfig } from './typeOrmConfig/typeOrmConfig';
 
 @Module({
   imports: [
@@ -16,6 +18,7 @@ import { FavoritesModule } from './routes/favorites/favorites.module';
     ArtistsModule,
     AlbumsModule,
     FavoritesModule,
+    TypeOrmModule.forRoot(TypeOrmConfig),
   ],
   controllers: [AppController],
   providers: [AppService],

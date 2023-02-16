@@ -4,4 +4,4 @@ COPY package*.json .
 RUN npm install
 COPY . .
 EXPOSE ${EXPOSE_PORT}
-CMD ["npm", "watch"]
+CMD ["npm", "run","watch"]
