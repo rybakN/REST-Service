@@ -11,12 +11,13 @@ import {
 export class UpdateAlbumDto extends PartialType(CreateAlbumDto) {
   @IsOptional()
   @IsString()
-  name: string;
+  name?: string;
   @IsOptional()
   @IsNumber()
-  year: number;
+  year?: number;
   @IsOptional()
   @IsUUID()
   @ValidateIf((object, value) => value !== null)
-  artistId: string | null;
+  artistId?: string | null;
+  favorite?: boolean;
 }

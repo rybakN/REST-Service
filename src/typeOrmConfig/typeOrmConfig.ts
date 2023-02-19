@@ -3,14 +3,18 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { AlbumEntity } from '../routes/albums/entities/album.entity';
 import { TrackEntity } from '../routes/tracks/entities/track.entity';
 import { ArtistEntity } from '../routes/artists/entities/artist.entity';
+import * as process from 'process';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 export const TypeOrmConfig: TypeOrmModuleOptions = {
   type: 'postgres',
-  host: 'localhost',
-  port: 5432,
-  username: 'postgres',
-  password: 'secret',
-  database: 'postgres',
+  host: process.env.POSTGRES_HOST,
+  port: +process.env.POSTGRES_PORT,
+  username: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
+  database: process.env.POSTGRES_DB,
   entities: [UserEntity, AlbumEntity, TrackEntity, ArtistEntity],
   synchronize: true,
 };

@@ -1,6 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { TrackEntity } from '../../tracks/entities/track.entity';
 import { AlbumEntity } from '../../albums/entities/album.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity('artist')
 export class ArtistEntity {
@@ -12,4 +13,7 @@ export class ArtistEntity {
   name: string;
   @Column()
   grammy: boolean;
+  @Exclude()
+  @Column({ default: false })
+  favorite: boolean;
 }

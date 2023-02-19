@@ -56,4 +56,6 @@ export abstract class AbstractEntityRepository<
     await this.entityRepo.delete(option);
     return;
   }
+
+  abstract getFavorites(): Promise<Entity[]>;
 }

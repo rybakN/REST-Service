@@ -1,18 +1,30 @@
 import { Injectable } from '@nestjs/common';
 import { FavoritesRepository } from '../interface/FavoritesRepository';
 import { FavoritesRepositoryResponse } from '../interface/FavoritesRepositoryResponse';
+import { AlbumEntity } from '../../albums/entities/album.entity';
+import { AlbumRepository } from './AlbumRepository';
+import { Favorite } from '../../favorites/entities/favorite.entity';
+import { ArtistRepository } from './ArtistRepository';
+import { TrackRepository } from './TrackRepository';
+import { ArtistEntity } from '../../artists/entities/artist.entity';
+import { TrackEntity } from '../../tracks/entities/track.entity';
 
 @Injectable()
 export class MapFavoritesRepository implements FavoritesRepository {
-  private artists: string[] = [];
-  private albums: string[] = [];
-  private tracks: string[] = [];
+  constructor(
+    private albums: AlbumRepository,
+    private artists: ArtistRepository,
+    private tracks: TrackRepository,
+  ) {}
 
-  public async getAll(): Promise<FavoritesRepositoryResponse> {
+  public async getAll(): Promise<Favorite> {
+    const albumsFav: AlbumEntity[] = await this.albums.getFavorites();
+    const artistsFav: ArtistEntity[] = await this.artists.getFavorites();
+    const tracksFav: TrackEntity[] = await this.tracks.getFavorites();
     return {
-      artists: this.artists,
-      albums: this.albums,
-      tracks: this.tracks,
+      artists: artistsFav,
+      albums: albumsFav,
+      tracks: tracksFav,
     };
   }
 
@@ -20,7 +32,7 @@ export class MapFavoritesRepository implements FavoritesRepository {
     id: string,
     collectionName: keyof FavoritesRepositoryResponse,
   ): Promise<string> {
-    this[collectionName].push(id);
+    await this[collectionName].update(id, { favorite: true });
     return id;
   }
 
@@ -28,9 +40,7 @@ export class MapFavoritesRepository implements FavoritesRepository {
     id: string,
     collectionName: keyof FavoritesRepositoryResponse,
   ): Promise<boolean> {
-    const idx: number = this[collectionName].findIndex((item) => item === id);
-    if (idx === -1) return false;
-    this[collectionName].splice(idx, 1);
+    await this[collectionName].update(id, { favorite: false });
     return true;
   }
 }

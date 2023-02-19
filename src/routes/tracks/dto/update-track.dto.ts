@@ -11,16 +11,17 @@ import {
 export class UpdateTrackDto extends PartialType(CreateTrackDto) {
   @IsOptional()
   @IsString()
-  name: string;
+  name?: string;
   @IsOptional()
   @IsUUID()
   @ValidateIf((object, value) => value !== null)
-  artistId: string | null;
+  artistId?: string | null;
   @IsOptional()
   @IsUUID()
   @ValidateIf((object, value) => value !== null)
-  albumId: string | null;
+  albumId?: string | null;
   @IsOptional()
   @IsInt()
-  duration: number;
+  duration?: number;
+  favorite?: boolean;
 }

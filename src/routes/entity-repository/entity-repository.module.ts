@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { UsersRepository } from './entity/UsersRepository';
 import { MapFavoritesRepository } from './entity/MapFavoritesRepository';
-import { AbstractEntityRepository } from './entity/AbstractEntityRepository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from '../user/entities/user.entity';
 import { TrackEntity } from '../tracks/entities/track.entity';

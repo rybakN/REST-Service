@@ -44,4 +44,7 @@ export class UsersRepository
     await this.userRepo.update(option, user);
     return user;
   }
+  public getFavorites(): Promise<UserEntity[]> {
+    return this.userRepo.find();
+  }
 }

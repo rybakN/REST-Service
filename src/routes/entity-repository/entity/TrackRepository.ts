@@ -16,4 +16,12 @@ export class TrackRepository
   ) {
     super(trackRepo);
   }
+
+  public getFavorites(): Promise<TrackEntity[]> {
+    return this.trackRepo.find({
+      where: {
+        favorite: true,
+      },
+    });
+  }
 }

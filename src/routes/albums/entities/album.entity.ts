@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { TrackEntity } from '../../tracks/entities/track.entity';
 import { ArtistEntity } from '../../artists/entities/artist.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity('albums')
 export class AlbumEntity {
@@ -24,4 +25,7 @@ export class AlbumEntity {
   })
   @JoinColumn({ name: 'artistId' })
   artistId: string | null;
+  @Exclude()
+  @Column({ default: false })
+  favorite: boolean;
 }

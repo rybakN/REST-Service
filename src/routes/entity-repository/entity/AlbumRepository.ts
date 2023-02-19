@@ -16,4 +16,7 @@ export class AlbumRepository
   ) {
     super(albumRepo);
   }
+  public getFavorites(): Promise<AlbumEntity[]> {
+    return this.albumRepo.find({ where: { favorite: true } });
+  }
 }

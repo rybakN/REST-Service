@@ -3,5 +3,5 @@ WORKDIR /usr/app
 COPY package*.json .
 RUN npm install
 COPY . .
-EXPOSE ${EXPOSE_PORT}
-CMD ["npm", "run","watch"]
+EXPOSE 4000
+CMD ["npm", "run", "watch"]

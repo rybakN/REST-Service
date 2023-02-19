@@ -2,12 +2,12 @@ import 'reflect-metadata';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule } from '@nestjs/swagger';
+import { ClassSerializerInterceptor } from '@nestjs/common';
 import * as dotenv from 'dotenv';
 import * as process from 'process';
 import * as fs from 'fs/promises';
 import * as path from 'path';
 import * as yaml from 'yaml';
-import { ClassSerializerInterceptor } from '@nestjs/common';
 
 dotenv.config();
 

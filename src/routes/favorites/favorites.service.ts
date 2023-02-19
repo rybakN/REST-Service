@@ -11,24 +11,13 @@ export class FavoritesService {
   constructor(
     private readonly favoritesRepo: MapFavoritesRepository,
 
-    private readonly artists: ArtistRepository,
-    private readonly albums: AlbumRepository,
-    private readonly tracks: TrackRepository,
+    private artists: ArtistRepository,
+    private albums: AlbumRepository,
+    private tracks: TrackRepository,
   ) {}
 
   async findAll(): Promise<Favorite> {
-    const favorites = await this.favoritesRepo.getAll();
-    const favoriteResp: Favorite = { artists: [], albums: [], tracks: [] };
-    for (const item of favorites.tracks) {
-      favoriteResp.tracks.push(await this.tracks.getOne(item));
-    }
-    for (const item of favorites.albums) {
-      favoriteResp.albums.push(await this.albums.getOne(item));
-    }
-    for (const item of favorites.artists) {
-      favoriteResp.artists.push(await this.artists.getOne(item));
-    }
-    return favoriteResp;
+    return await this.favoritesRepo.getAll();
   }
 
   async addInFav(

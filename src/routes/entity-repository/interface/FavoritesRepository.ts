@@ -1,4 +1,5 @@
 import { FavoritesRepositoryResponse } from './FavoritesRepositoryResponse';
+import { Favorite } from '../../favorites/entities/favorite.entity';
 
 export interface FavoritesRepository {
   add(
@@ -9,5 +10,5 @@ export interface FavoritesRepository {
     id: string,
     collectionName: keyof FavoritesRepositoryResponse,
   ): Promise<boolean>;
-  getAll(): Promise<FavoritesRepositoryResponse>;
+  getAll(): Promise<Favorite>;
 }
