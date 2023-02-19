@@ -5,22 +5,14 @@ import { AlbumEntity } from './entities/album.entity';
 import { TrackEntity } from '../tracks/entities/track.entity';
 import { UpdateTrackDto } from '../tracks/dto/update-track.dto';
 import { MapFavoritesRepository } from '../entity-repository/entity/MapFavoritesRepository';
-import { MapEntityRepository } from '../entity-repository/entity/MapEntityRepository';
-import { CreateTrackDto } from '../tracks/dto/create-track.dto';
+import { AlbumRepository } from '../entity-repository/entity/AlbumRepository';
+import { TrackRepository } from '../entity-repository/entity/TrackRepository';
 
 @Injectable()
 export class AlbumsService {
   constructor(
-    private readonly albums: MapEntityRepository<
-      AlbumEntity,
-      CreateAlbumDto,
-      UpdateAlbumDto
-    >,
-    private readonly tracks: MapEntityRepository<
-      TrackEntity,
-      CreateTrackDto,
-      UpdateTrackDto
-    >,
+    private readonly albums: AlbumRepository,
+    private readonly tracks: TrackRepository,
     private readonly favorites: MapFavoritesRepository,
   ) {}
   public async create(createAlbumDto: CreateAlbumDto): Promise<AlbumEntity> {
@@ -50,8 +42,8 @@ export class AlbumsService {
   public async remove(id: string): Promise<void | null> {
     const deleted: AlbumEntity | null = await this.albums.getOne(id);
     if (!deleted) return null;
-    await this.deleteArtistIdInTracks(id, 'albumId');
-    await this.favorites.delete(id, 'albums');
+    // await this.deleteArtistIdInTracks(id, 'albumId');
+    // await this.favorites.delete(id, 'albums');
     return await this.albums.delete(id);
   }
 

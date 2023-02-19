@@ -3,13 +3,13 @@ import { CreateUserDto } from '../../user/dto/create-user.dto';
 import { UpdateUserDto } from '../../user/dto/update-user.dto';
 import { Injectable } from '@nestjs/common';
 import { EntityRepository } from '../interface/EntityRepository';
-import { MapEntityRepository } from './MapEntityRepository';
+import { AbstractEntityRepository } from './AbstractEntityRepository';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
 
 @Injectable()
-export class MapUsersRepository
-  extends MapEntityRepository<UserEntity, CreateUserDto, UpdateUserDto>
+export class UsersRepository
+  extends AbstractEntityRepository<UserEntity, CreateUserDto, UpdateUserDto>
   implements EntityRepository<UserEntity, CreateUserDto, UpdateUserDto>
 {
   constructor(
@@ -36,8 +36,12 @@ export class MapUsersRepository
     if (!user) return null;
     user.password = updateUserDTO.newPassword;
     user.updatedAt = Number(new Date());
+    user.createdAt = Number(user.createdAt);
     user.version += 1;
-    this.entities.set(id, user);
+    const option: FindOptionsWhere<UserEntity> = {
+      id: id,
+    } as FindOptionsWhere<UserEntity>;
+    await this.userRepo.update(option, user);
     return user;
   }
 }

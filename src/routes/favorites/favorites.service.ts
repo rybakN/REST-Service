@@ -2,37 +2,18 @@ import { Injectable } from '@nestjs/common';
 import { FavoritesRepositoryResponse } from '../entity-repository/interface/FavoritesRepositoryResponse';
 import { MapFavoritesRepository } from '../entity-repository/entity/MapFavoritesRepository';
 import { Favorite } from './entities/favorite.entity';
-import { MapEntityRepository } from '../entity-repository/entity/MapEntityRepository';
-import { ArtistEntity } from '../artists/entities/artist.entity';
-import { CreateArtistDto } from '../artists/dto/create-artist.dto';
-import { UpdateArtistDto } from '../artists/dto/update-artist.dto';
-import { AlbumEntity } from '../albums/entities/album.entity';
-import { CreateAlbumDto } from '../albums/dto/create-album.dto';
-import { UpdateAlbumDto } from '../albums/dto/update-album.dto';
-import { TrackEntity } from '../tracks/entities/track.entity';
-import { CreateTrackDto } from '../tracks/dto/create-track.dto';
-import { UpdateTrackDto } from '../tracks/dto/update-track.dto';
+import { ArtistRepository } from '../entity-repository/entity/ArtistRepository';
+import { AlbumRepository } from '../entity-repository/entity/AlbumRepository';
+import { TrackRepository } from '../entity-repository/entity/TrackRepository';
 
 @Injectable()
 export class FavoritesService {
   constructor(
     private readonly favoritesRepo: MapFavoritesRepository,
 
-    private readonly artists: MapEntityRepository<
-      ArtistEntity,
-      CreateArtistDto,
-      UpdateArtistDto
-    >,
-    private readonly albums: MapEntityRepository<
-      AlbumEntity,
-      CreateAlbumDto,
-      UpdateAlbumDto
-    >,
-    private readonly tracks: MapEntityRepository<
-      TrackEntity,
-      CreateTrackDto,
-      UpdateTrackDto
-    >,
+    private readonly artists: ArtistRepository,
+    private readonly albums: AlbumRepository,
+    private readonly tracks: TrackRepository,
   ) {}
 
   async findAll(): Promise<Favorite> {
