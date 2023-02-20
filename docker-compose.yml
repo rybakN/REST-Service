@@ -2,23 +2,26 @@ version: '3.4'
 
 services:
   app:
-    image: rybakn/rest-service-app:1
-    ports:
-      - ${PORT}:${EXPOSE_PORT}
+    build: .
+    image: rest-service-app
     working_dir: /src
     volumes:
       - ./:/src
     environment:
+      PORT: ${PORT}
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - ${PORT}:${PORT}
     depends_on:
       - postgres
     restart: always
     networks:
       - rest-net
   postgres:
-    image: rybakn/rest-service-postgres:1
+    build: ./database
+    image: rest-service-postgres
     ports:
       - ${POSTGRES_PORT}:${POSTGRES_EXPOSE_PORT}
     volumes:

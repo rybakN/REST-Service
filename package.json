@@ -23,7 +23,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "scan": "docker scan rybakn/rest-service-app:1 & docker scan rybakn/rest-service-postgres:1",
+    "scan": "docker scan rest-service-app & docker scan rest-service-postgres",
     "typeorm": "typeorm-ts-node-commonjs -d dist/typeOrmConfig/dataSource.js",
     "migration:create": "npm run build && npm run typeorm migration:create src/typeOrmConfig/",
     "migration:generate": "npm run build && npm run typeorm migration:generate -d src/typeOrmConfig/gen",
