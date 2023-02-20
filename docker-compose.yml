@@ -31,6 +31,18 @@ services:
     restart: always
     networks:
       rest-net: {}
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    environment:
+      PGADMIN_DEFAULT_PASSWORD: "secret"
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    volumes:
+      - ./pgadmin:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    restart: unless-stopped
+    networks:
+      - rest-net
 volumes:
   rest-service-data:
 networks:
