@@ -16,7 +16,7 @@ services:
       - postgres
     restart: always
     networks:
-      rest-net: {}
+      - rest-net
   postgres:
     image: rybakn/rest-service-postgres:1
     ports:
@@ -28,18 +28,6 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     restart: always
-    networks:
-      rest-net: {}
-  pgadmin:
-    image: dpage/pgadmin4:latest
-    environment:
-      PGADMIN_DEFAULT_PASSWORD: "secret"
-      PGADMIN_CONFIG_SERVER_MODE: "False"
-    volumes:
-      - ./pgadmin:/var/lib/pgadmin
-    ports:
-      - "5050:80"
-    restart: unless-stopped
     networks:
       - rest-net
 volumes:
