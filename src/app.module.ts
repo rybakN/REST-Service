@@ -9,6 +9,8 @@ import { AlbumsModule } from './routes/albums/albums.module';
 import { FavoritesModule } from './routes/favorites/favorites.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfig } from './typeOrmConfig/typeOrmConfig';
+import { APP_FILTER } from '@nestjs/core';
+import { AllExceptionFilter } from './exception-filter/all-exception.filter';
 
 @Module({
   imports: [
@@ -21,7 +23,10 @@ import { TypeOrmConfig } from './typeOrmConfig/typeOrmConfig';
     TypeOrmModule.forRoot(TypeOrmConfig),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    { provide: APP_FILTER, useClass: AllExceptionFilter },
+  ],
   exports: [EntityRepositoryModule],
 })
 export class AppModule {}
