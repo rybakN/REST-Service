@@ -8,8 +8,8 @@ import {
   ParseUUIDPipe,
   HttpCode,
   HttpStatus,
-  HttpException,
   Put,
+  NotFoundException,
 } from '@nestjs/common';
 import { TracksService } from './tracks.service';
 import { CreateTrackDto } from './dto/create-track.dto';
@@ -37,11 +37,7 @@ export class TracksController {
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<TrackEntity> {
     const track: TrackEntity | null = await this.tracksService.findOne(id);
-    if (!track)
-      throw new HttpException(
-        `Track with id: ${id} not found`,
-        HttpStatus.NOT_FOUND,
-      );
+    if (!track) throw new NotFoundException(`Track with id: ${id} not found`);
     return await this.tracksService.findOne(id);
   }
 
@@ -55,10 +51,7 @@ export class TracksController {
       updateTrackDto,
     );
     if (!updatedTrack)
-      throw new HttpException(
-        `Track with id: ${id} not found`,
-        HttpStatus.NOT_FOUND,
-      );
+      throw new NotFoundException(`Track with id: ${id} not found`);
     return updatedTrack;
   }
 
@@ -67,10 +60,7 @@ export class TracksController {
   public async remove(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
     const deleted: void | null = await this.tracksService.remove(id);
     if (deleted === null)
-      throw new HttpException(
-        `Track with id: ${id} not found`,
-        HttpStatus.NOT_FOUND,
-      );
+      throw new NotFoundException(`Track with id: ${id} not found`);
     return await this.tracksService.remove(id);
   }
 }

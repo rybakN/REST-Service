@@ -6,10 +6,10 @@ import {
   Param,
   Delete,
   ParseUUIDPipe,
-  HttpException,
   HttpStatus,
   Put,
   HttpCode,
+  NotFoundException,
 } from '@nestjs/common';
 import { AlbumsService } from './albums.service';
 import { CreateAlbumDto } from './dto/create-album.dto';
@@ -37,11 +37,7 @@ export class AlbumsController {
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<AlbumEntity> {
     const album: AlbumEntity | null = await this.albumsService.findOne(id);
-    if (!album)
-      throw new HttpException(
-        `Album with id: ${id} not found`,
-        HttpStatus.NOT_FOUND,
-      );
+    if (!album) throw new NotFoundException(`Album with id: ${id} not found`);
     return await this.albumsService.findOne(id);
   }
 
@@ -55,10 +51,7 @@ export class AlbumsController {
       updateAlbumDto,
     );
     if (!updatedAlbum)
-      throw new HttpException(
-        `Album with id: ${id} not found`,
-        HttpStatus.NOT_FOUND,
-      );
+      throw new NotFoundException(`Album with id: ${id} not found`);
     return updatedAlbum;
   }
 
@@ -67,10 +60,7 @@ export class AlbumsController {
   public async remove(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
     const deleted: void | null = await this.albumsService.remove(id);
     if (deleted === null)
-      throw new HttpException(
-        `Album with id: ${id} not found`,
-        HttpStatus.NOT_FOUND,
-      );
+      throw new NotFoundException(`Album with id: ${id} not found`);
     return await this.albumsService.remove(id);
   }
 }

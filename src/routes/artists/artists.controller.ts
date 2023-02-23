@@ -6,10 +6,10 @@ import {
   Param,
   Delete,
   ParseUUIDPipe,
-  HttpException,
   HttpStatus,
   Put,
   HttpCode,
+  NotFoundException,
 } from '@nestjs/common';
 import { ArtistsService } from './artists.service';
 import { ValidationBodyPipe } from '../utils/validation-body.pipe';
@@ -38,11 +38,7 @@ export class ArtistsController {
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<ArtistEntity> {
     const artist: ArtistEntity | null = await this.artistsService.findOne(id);
-    if (!artist)
-      throw new HttpException(
-        `Artist with id: ${id} not found`,
-        HttpStatus.NOT_FOUND,
-      );
+    if (!artist) throw new NotFoundException(`Artist with id: ${id} not found`);
     return await this.artistsService.findOne(id);
   }
 
@@ -56,10 +52,7 @@ export class ArtistsController {
       updateArtistDto,
     );
     if (!updatedArtist)
-      throw new HttpException(
-        `Artist with id: ${id} not found`,
-        HttpStatus.NOT_FOUND,
-      );
+      throw new NotFoundException(`Artist with id: ${id} not found`);
     return updatedArtist;
   }
 
@@ -68,10 +61,7 @@ export class ArtistsController {
   public async remove(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
     const deleted: void | null = await this.artistsService.remove(id);
     if (deleted === null)
-      throw new HttpException(
-        `Artist with id: ${id} not found`,
-        HttpStatus.NOT_FOUND,
-      );
+      throw new NotFoundException(`Artist with id: ${id} not found`);
     return await this.artistsService.remove(id);
   }
 }

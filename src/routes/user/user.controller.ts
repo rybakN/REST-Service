@@ -8,9 +8,10 @@ import {
   Put,
   ParseUUIDPipe,
   HttpStatus,
-  HttpException,
   HttpCode,
   UseInterceptors,
+  NotFoundException,
+  ForbiddenException,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -41,11 +42,7 @@ export class UserController {
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<Omit<UserEntity, 'password'>> {
     const user: UserEntity | null = await this.usersService.findOne(id);
-    if (!user)
-      throw new HttpException(
-        `User with id: ${id} not found`,
-        HttpStatus.NOT_FOUND,
-      );
+    if (!user) throw new NotFoundException(`User with id: ${id} not found`);
     return user;
   }
 
@@ -56,12 +53,8 @@ export class UserController {
   ): Promise<Omit<UserEntity, 'password'>> {
     const updated = await this.usersService.update(id, updateUserDto);
     if (typeof updated === 'boolean')
-      throw new HttpException('Wrong password', HttpStatus.FORBIDDEN);
-    if (!updated)
-      throw new HttpException(
-        `User with id: ${id} not found`,
-        HttpStatus.NOT_FOUND,
-      );
+      throw new ForbiddenException('Wrong password');
+    if (!updated) throw new NotFoundException(`User with id: ${id} not found`);
     return updated;
   }
 
@@ -70,10 +63,7 @@ export class UserController {
   public async remove(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
     const deleted: void | null = await this.usersService.remove(id);
     if (deleted === null)
-      throw new HttpException(
-        `User with id: ${id} not found`,
-        HttpStatus.NOT_FOUND,
-      );
+      throw new NotFoundException(`User with id: ${id} not found`);
     return;
   }
 }

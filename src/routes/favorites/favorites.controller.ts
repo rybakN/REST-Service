@@ -7,7 +7,8 @@ import {
   ParseUUIDPipe,
   HttpCode,
   HttpStatus,
-  HttpException,
+  NotFoundException,
+  UnprocessableEntityException,
 } from '@nestjs/common';
 import { FavoritesService } from './favorites.service';
 import { ArtistEntity } from '../artists/entities/artist.entity';
@@ -36,9 +37,8 @@ export class FavoritesController {
       'artists',
     );
     if (!_id)
-      throw new HttpException(
+      throw new UnprocessableEntityException(
         `Artist with id: ${id} doesn't exist`,
-        HttpStatus.UNPROCESSABLE_ENTITY,
       );
     return [_id];
   }
@@ -51,9 +51,8 @@ export class FavoritesController {
       'artists',
     );
     if (!response)
-      throw new HttpException(
+      throw new NotFoundException(
         `Artist with id: ${id} not found in favorites`,
-        HttpStatus.NOT_FOUND,
       );
     return;
   }
@@ -67,9 +66,8 @@ export class FavoritesController {
       'albums',
     );
     if (!_id)
-      throw new HttpException(
+      throw new UnprocessableEntityException(
         `Album with id: ${id} doesn't exist`,
-        HttpStatus.UNPROCESSABLE_ENTITY,
       );
     return [_id];
   }
@@ -82,9 +80,8 @@ export class FavoritesController {
       'albums',
     );
     if (!response)
-      throw new HttpException(
+      throw new NotFoundException(
         `Albums with id: ${id} not found in favorites`,
-        HttpStatus.NOT_FOUND,
       );
     return;
   }
@@ -98,9 +95,8 @@ export class FavoritesController {
       'tracks',
     );
     if (!_id)
-      throw new HttpException(
+      throw new UnprocessableEntityException(
         `Track with id: ${id} doesn't exist`,
-        HttpStatus.UNPROCESSABLE_ENTITY,
       );
     return [_id];
   }
@@ -113,9 +109,8 @@ export class FavoritesController {
       'tracks',
     );
     if (!response)
-      throw new HttpException(
+      throw new NotFoundException(
         `Tracks with id: ${id} not found in favorites`,
-        HttpStatus.NOT_FOUND,
       );
     return;
   }

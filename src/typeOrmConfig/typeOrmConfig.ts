@@ -12,6 +12,6 @@ export const TypeOrmConfig: DataSourceOptions = {
   type: 'postgres',
   url: process.env.POSTGRES_URL,
   entities: [UserEntity, AlbumEntity, TrackEntity, ArtistEntity],
-  synchronize: false,
-  migrationsRun: true,
+  synchronize: true,
+  // migrationsRun: true,
 };
