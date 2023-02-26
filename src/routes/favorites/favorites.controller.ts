@@ -9,12 +9,15 @@ import {
   HttpStatus,
   NotFoundException,
   UnprocessableEntityException,
+  UseGuards,
 } from '@nestjs/common';
 import { FavoritesService } from './favorites.service';
 import { ArtistEntity } from '../artists/entities/artist.entity';
 import { AlbumEntity } from '../albums/entities/album.entity';
 import { TrackEntity } from '../tracks/entities/track.entity';
+import { AuthGuard } from '@nestjs/passport';
 
+@UseGuards(AuthGuard('jwt'))
 @Controller('favs')
 export class FavoritesController {
   constructor(private readonly favoritesService: FavoritesService) {}

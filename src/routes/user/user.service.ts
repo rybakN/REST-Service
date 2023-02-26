@@ -3,6 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserEntity } from './entities/user.entity';
 import { UsersRepository } from '../entity-repository/entity/UsersRepository';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -25,7 +26,11 @@ export class UserService {
   ): Promise<UserEntity | null | boolean> {
     const user: UserEntity | null = await this.findOne(id);
     if (!user) return null;
-    if (user.password !== updateUserDto.oldPassword) return false;
+    const passwordValid = await bcrypt.compare(
+      updateUserDto.oldPassword,
+      user.password,
+    );
+    if (passwordValid) return false;
     return this.users.update(id, updateUserDto);
   }
 
@@ -33,5 +38,9 @@ export class UserService {
     const user: UserEntity | null = await this.findOne(id);
     if (!user) return null;
     return await this.users.delete(id);
+  }
+
+  async getUser(param: { login: string }): Promise<UserEntity> {
+    return this.users.getUser(param);
   }
 }

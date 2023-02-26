@@ -6,6 +6,7 @@ import { EntityRepository } from '../interface/EntityRepository';
 import { AbstractEntityRepository } from './AbstractEntityRepository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersRepository
@@ -25,6 +26,7 @@ export class UsersRepository
       createdAt: now,
       updatedAt: now,
     };
+    user.password = await bcrypt.hash(user.password, 10);
     return this.userRepo.save(user);
   }
 
@@ -34,7 +36,7 @@ export class UsersRepository
   ): Promise<UserEntity | null> {
     const user: UserEntity | null = await this.getOne(id);
     if (!user) return null;
-    user.password = updateUserDTO.newPassword;
+    user.password = await bcrypt.hash(updateUserDTO.newPassword, 10);
     user.updatedAt = Number(new Date());
     user.createdAt = Number(user.createdAt);
     user.version += 1;
@@ -44,7 +46,11 @@ export class UsersRepository
     await this.userRepo.update(option, user);
     return user;
   }
-  public getFavorites(): Promise<UserEntity[]> {
+  public async getFavorites(): Promise<UserEntity[]> {
     return this.userRepo.find();
+  }
+
+  public async getUser(param: { login: string }): Promise<UserEntity> {
+    return this.userRepo.findOneBy({ login: param.login });
   }
 }

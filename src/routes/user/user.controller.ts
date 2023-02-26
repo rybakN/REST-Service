@@ -12,6 +12,7 @@ import {
   UseInterceptors,
   NotFoundException,
   ForbiddenException,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -19,7 +20,9 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { ValidationBodyPipe } from '../utils/validation-body.pipe';
 import { UserEntity } from './entities/user.entity';
 import { UserBodyInterceptor } from '../utils/user-body.interceptor';
+import { AuthGuard } from '@nestjs/passport';
 
+@UseGuards(AuthGuard('jwt'))
 @UseInterceptors(UserBodyInterceptor)
 @Controller('user')
 export class UserController {

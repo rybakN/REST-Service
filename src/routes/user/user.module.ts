@@ -7,5 +7,6 @@ import { EntityRepositoryModule } from '../entity-repository/entity-repository.m
   imports: [EntityRepositoryModule],
   controllers: [UserController],
   providers: [UserService],
+  exports: [UserService],
 })
 export class UserModule {}

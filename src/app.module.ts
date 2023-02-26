@@ -13,9 +13,11 @@ import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionFilter } from './exception-filter/all-exception.filter';
 import { CustomLoggerModule } from './custom-logger/custom-logger.module';
 import { LoggerMiddleware } from './logger/logger.middleware';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
+    AuthModule,
     UserModule,
     TracksModule,
     EntityRepositoryModule,

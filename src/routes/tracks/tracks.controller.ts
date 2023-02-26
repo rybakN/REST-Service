@@ -10,13 +10,16 @@ import {
   HttpStatus,
   Put,
   NotFoundException,
+  UseGuards,
 } from '@nestjs/common';
 import { TracksService } from './tracks.service';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
 import { ValidationBodyPipe } from '../utils/validation-body.pipe';
 import { TrackEntity } from './entities/track.entity';
+import { AuthGuard } from '@nestjs/passport';
 
+@UseGuards(AuthGuard('jwt'))
 @Controller('track')
 export class TracksController {
   constructor(private readonly tracksService: TracksService) {}
