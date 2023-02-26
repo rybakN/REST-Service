@@ -1,4 +1,8 @@
-import { Injectable, NotAcceptableException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotAcceptableException,
+} from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../routes/user/user.service';
@@ -14,7 +18,10 @@ export class AuthService {
     const user: UserEntity = await this.usersService.getUser({
       login: login,
     });
-    if (!user) return null;
+    if (!user)
+      throw new ForbiddenException(
+        "No user with such login or password doesn't match actual one",
+      );
     const passwordValid = await bcrypt.compare(password, user.password);
     if (!user) {
       throw new NotAcceptableException('could not find the user');

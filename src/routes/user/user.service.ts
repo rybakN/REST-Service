@@ -30,7 +30,7 @@ export class UserService {
       updateUserDto.oldPassword,
       user.password,
     );
-    if (passwordValid) return false;
+    if (!passwordValid) return false;
     return this.users.update(id, updateUserDto);
   }
 
