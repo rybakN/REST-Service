@@ -7,16 +7,19 @@ import { AbstractEntityRepository } from './AbstractEntityRepository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import * as process from 'process';
 
 @Injectable()
 export class UsersRepository
   extends AbstractEntityRepository<UserEntity, CreateUserDto, UpdateUserDto>
   implements EntityRepository<UserEntity, CreateUserDto, UpdateUserDto>
 {
+  cryptSalt: number;
   constructor(
     @InjectRepository(UserEntity) protected userRepo: Repository<UserEntity>,
   ) {
     super(userRepo);
+    this.cryptSalt = +process.env.CRYPT_SALT || 10;
   }
   public async create(createUserDTO: CreateUserDto): Promise<UserEntity> {
     const now = Number(new Date());
@@ -26,7 +29,7 @@ export class UsersRepository
       createdAt: now,
       updatedAt: now,
     };
-    user.password = await bcrypt.hash(user.password, 10);
+    user.password = await bcrypt.hash(user.password, this.cryptSalt);
     return this.userRepo.save(user);
   }
 
@@ -36,7 +39,10 @@ export class UsersRepository
   ): Promise<UserEntity | null> {
     const user: UserEntity | null = await this.getOne(id);
     if (!user) return null;
-    user.password = await bcrypt.hash(updateUserDTO.newPassword, 10);
+    user.password = await bcrypt.hash(
+      updateUserDTO.newPassword,
+      this.cryptSalt,
+    );
     user.updatedAt = Number(new Date());
     user.createdAt = Number(user.createdAt);
     user.version += 1;

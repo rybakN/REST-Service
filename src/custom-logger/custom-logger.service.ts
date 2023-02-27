@@ -81,7 +81,7 @@ export class CustomLoggerService extends ConsoleLogger {
   ): Promise<void> {
     await stat(__dirname + '/' + filename)
       .then((value) => {
-        if (value.size >= this.maxSizeFile) {
+        if (value.size / 1024 >= (this.maxSizeFile || 10)) {
           if (logName === 'error')
             this.errorLogFileName = Date.now() + '-error.log';
           this.appLogFileName = Date.now() + '-app.log';
