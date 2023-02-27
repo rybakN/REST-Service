@@ -1,4 +1,11 @@
-import { Controller, Post, UseGuards, Request, Body } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  UseGuards,
+  Request,
+  Body,
+  HttpCode,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UserService } from '../routes/user/user.service';
 import { ValidationBodyPipe } from '../routes/utils/validation-body.pipe';
@@ -26,6 +33,7 @@ export class AuthController {
 
   @UseGuards(RefreshJwtGuard)
   @Post('/refresh')
+  @HttpCode(200)
   async refreshToken(@Request() req) {
     return await this.authService.refreshToken(req.user);
   }

@@ -4,12 +4,12 @@ import { UserModule } from '../routes/user/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthService } from './auth.service';
 import { UserService } from '../routes/user/user.service';
-import { LocalStrategy } from './local.strategy';
+import { LocalStrategy } from './strategy/local.strategy';
 import { AuthController } from './auth.controller';
 import { EntityRepositoryModule } from '../routes/entity-repository/entity-repository.module';
-import { JwtStrategy } from './jwt.strategy';
+import { JwtStrategy } from './strategy/jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { RefreshJwtStrategy } from './refresh-jwt.strategy';
+import { RefreshJwtStrategy } from './strategy/refresh-jwt.strategy';
 
 @Module({
   imports: [
