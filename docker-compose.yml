@@ -1,0 +1,59 @@
+version: '3.4'
+
+services:
+  app:
+    build: .
+    image: rest-service-app
+    volumes:
+      - ./src:/usr/app/src
+    environment:
+      POSTGRES_URL: ${POSTGRES_URL}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      JWT_SECRET_REFRESH_KEY: ${JWT_SECRET_REFRESH_KEY}
+      TOKEN_REFRESH_EXPIRE_TIME: ${TOKEN_REFRESH_EXPIRE_TIME}
+      TOKEN_EXPIRE_TIME: ${TOKEN_EXPIRE_TIME}
+      MAX_SIZE_LOG_FILE: ${MAX_SIZE_LOG_FILE}
+      LOG_LEVEL: ${LOG_LEVEL}
+      CRYPT_SALT: ${CRYPT_SALT}
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      - postgres
+    restart: always
+    networks:
+      - rest-net
+  postgres:
+    build: ./database
+    image: rest-service-postgres
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_EXPOSE_PORT}
+    volumes:
+      - rest-service-data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    restart: always
+    networks:
+      - rest-net
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "habrpguser@habr.com"
+      PGADMIN_DEFAULT_PASSWORD: "pgadminpwd4habr"
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    volumes:
+      - ./pgadmin:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    restart: unless-stopped
+    networks:
+      - rest-net
+volumes:
+  rest-service-data:
+networks:
+  rest-net:
+    driver: bridge

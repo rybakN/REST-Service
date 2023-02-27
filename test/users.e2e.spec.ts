@@ -41,7 +41,7 @@ describe('Users (e2e)', () => {
   });
 
   describe('GET', () => {
-    it('should correctly get all users', async () => {
+    it('should correctly get all user', async () => {
       const response = await unauthorizedRequest
         .get(usersRoutes.getAll)
         .set(commonHeaders);
