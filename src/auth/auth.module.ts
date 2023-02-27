@@ -6,21 +6,27 @@ import { AuthService } from './auth.service';
 import { UserService } from '../routes/user/user.service';
 import { LocalStrategy } from './local.strategy';
 import { AuthController } from './auth.controller';
-import * as process from 'process';
 import { EntityRepositoryModule } from '../routes/entity-repository/entity-repository.module';
 import { JwtStrategy } from './jwt.strategy';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { RefreshJwtStrategy } from './refresh-jwt.strategy';
 
 @Module({
   imports: [
     PassportModule,
     EntityRepositoryModule,
     UserModule,
-    JwtModule.register({
-      secret: process.env.SECRET_KEY,
-      signOptions: { expiresIn: '60s' },
-    }),
+    JwtModule.register({}),
+    ConfigModule,
   ],
-  providers: [AuthService, UserService, LocalStrategy, JwtStrategy],
+  providers: [
+    AuthService,
+    UserService,
+    LocalStrategy,
+    JwtStrategy,
+    RefreshJwtStrategy,
+    ConfigService,
+  ],
   controllers: [AuthController],
 })
 export class AuthModule {}

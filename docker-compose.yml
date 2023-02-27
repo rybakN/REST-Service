@@ -1,20 +1,22 @@
 version: '3.4'
 
 services:
-#  app:
-#    build: .
-#    image: rest-service-app
-#    volumes:
-#      - ./src:/usr/app/src
-#    environment:
-#      POSTGRES_URL: ${POSTGRES_URL}
-#    ports:
-#      - ${PORT}:${PORT}
-#    depends_on:
-#      - postgres
-#    restart: always
-#    networks:
-#      - rest-net
+  app:
+    build: .
+    image: rest-service-app
+    volumes:
+      - ./src:/usr/app/src
+    environment:
+      POSTGRES_URL: ${POSTGRES_URL}
+      SECRET_KEY: ${SECRET_KEY}
+      SECRET_KEY_REFRESH: ${SECRET_KEY_REFRESH}
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      - postgres
+    restart: always
+    networks:
+      - rest-net
   postgres:
     build: ./database
     image: rest-service-postgres
