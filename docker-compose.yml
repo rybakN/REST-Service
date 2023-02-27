@@ -10,6 +10,8 @@ services:
       POSTGRES_URL: ${POSTGRES_URL}
       SECRET_KEY: ${SECRET_KEY}
       SECRET_KEY_REFRESH: ${SECRET_KEY_REFRESH}
+      MAX_SIZE_LOG_FILE: ${MAX_SIZE_LOG_FILE}
+      LOG_LEVEL: ${LOG_LEVEL}
     ports:
       - ${PORT}:${PORT}
     depends_on:

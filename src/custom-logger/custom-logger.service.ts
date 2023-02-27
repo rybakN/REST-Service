@@ -18,15 +18,15 @@ export class CustomLoggerService extends ConsoleLogger {
   private maxSizeFile: number;
   private errorLogFileName: string;
   private appLogFileName: string;
-  private logLevel = 0;
+  private logLevel = 2;
   constructor() {
     super();
-    this.maxSizeFile = Number(process.env.MAX_SIZE_LOG_FILE);
+    this.maxSizeFile = Number(process.env.MAX_SIZE_LOG_FILE || 10000);
     this.errorLogFileName = Date.now() + '-error.log';
     this.appLogFileName = Date.now() + '-app.log';
 
+    if (process.env.LOG_LEVEL === '0') this.logLevel = 0;
     if (process.env.LOG_LEVEL === '1') this.logLevel = 1;
-    if (process.env.LOG_LEVEL === '2') this.logLevel = 2;
     if (process.env.LOG_LEVEL === '3') this.logLevel = 3;
     if (process.env.LOG_LEVEL === '4') this.logLevel = 4;
 
